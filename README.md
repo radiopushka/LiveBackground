@@ -3,7 +3,7 @@ Live Background animator for DWM Linux
 
 installation
 
-requires ffmpeg with h264 library installed
+for mp4 conversion, requires ffmpeg with h264 library installed
 on Gentoo:
 add openh264 to the use flags and re emerge ffmpeg
 
