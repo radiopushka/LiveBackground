@@ -118,13 +118,16 @@ int main(int argn, char* argv[]){
 
 	if(argn<4){
 		printf("a program to animate desktops on tiling window managers like dwm\n");
-		printf("%s <display id (:0)> <path to directory with image files> <fps rate> [frame skipping]\n",argv[0]);
+		printf("%s <display id (:0)> <path to directory with image files> <fps rate> [frame skipping] [bidirectional]\n",argv[0]);
 		return 0;
 	}
-
+  int bidirectional=0;
 	if(argn >4){
 		skipping = atoi(argv[4]);
 		printf("skipping every %d frames\n",skipping);
+    if(argn>5){
+      bidirectional=1;
+    }
 	}
 
 	initX11(argv[1]);//init x11
@@ -145,14 +148,24 @@ int main(int argn, char* argv[]){
 		return 0;
 	}
 	//some kill condition
+  int incrmentation =1;
 	unsigned int cycle_index = 0;
 	while(1){
 
 		
 		setImaged(images[cycle_index]);
-		cycle_index++;
+		cycle_index = cycle_index+incrmentation;
+    if(bidirectional==1 && cycle_index <= 0){
+
+      incrmentation=1;
+    }
+    
 		if(cycle_index >= imagecount){
-			cycle_index = 0;
+      if(bidirectional==1){
+        incrmentation=-1;
+        cycle_index=cycle_index-2;
+      }else
+			  cycle_index = 0;
 		}
 		//printf("setting %d %d\n",cycle_index);
     usleep(sleeptime);
