@@ -2,28 +2,31 @@
   #define X11IMAGE
   #include <X11/Xlib.h>
   typedef unsigned char Raster;
+
+#define MAXERR_R 4
+#define MAXERR_G 3
+#define MAXERR_B 6
+
   //our raster declares image type in B G R per each pixel
   //one pixel has 3 chars B G and R
   //the Y is 
 
-  void setRGB(int R,int G ,int B);//sets the background RGB
-  void drawImage(Raster* im);//sets the background Image
   int rescaled_read(char* image, Raster* memory,int width,int height);//read a png image from file
-  unsigned long long getRasterLocation(int x,int y);//returns the location on the raster of that pixel
   int getWindowHeight();
   int getWindowWidth();
   unsigned long long getScreenArea();
-  void stopXEvent();
   Raster* getRaster();
-  void generateImage(Raster* data);
-  XImage* createXImage(Raster** memory);
 
-  void XeventListener(void (*func)(XEvent));//calls function when the mouse moves
+  void putImage(Raster* image);
+  void putCorrection(Raster* pixels,unsigned char** pixel_location,unsigned int count);
+  //create a correction array for an image based on current data
+  unsigned int calculateBsize(unsigned char* input);
+  void populateBsize(unsigned char* input,unsigned char** location_array,unsigned char* pixel_array);
+
    
 
   void initX11(char* display);
-  void setImage();//refreshes display
-  void setImaged(XImage* xim);
+  void XputImage();//refreshes display
   void flushX();//flush the data
   void closeX11(); 
                   //

@@ -35,7 +35,7 @@ int rescaled_read(char* image,unsigned char* memory,int width,int height){
   png_destroy_read_struct(&png, &info, NULL);
   //unsigned long long area=width*height*4;
   unsigned long long yend=height;
-  unsigned long long xend=width*4;
+  unsigned long long xend=width*3;
   unsigned char* output=memory;
   unsigned long long i1;
   unsigned long long i2;
@@ -54,7 +54,6 @@ int rescaled_read(char* image,unsigned char* memory,int width,int height){
       output[i2++]=rows[i3][i4+2];
       output[i2++]=rows[i3][i4+1];
       output[i2++]=rows[i3][i4];
-      output[i2++]=255;
         i4=i4+mult;
       
     }

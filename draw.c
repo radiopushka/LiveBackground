@@ -7,9 +7,16 @@
 #include <string.h>
 #include <unistd.h>
 
-XImage** images;
-Raster** data;
+Raster** images;
 unsigned int image_count;
+
+unsigned int optimizationscore=0;
+
+
+//optimization structures
+unsigned char*** address_holder;
+Raster** pixelmaps;
+unsigned int* count_map;
 
 int maxwidth;
 int maxheight;
@@ -17,6 +24,59 @@ int maxheight;
 int skipping = 1;
 
 unsigned int imagecount;
+
+void setup_optimizations(){
+  optimizationscore=0;
+  address_holder=malloc(sizeof(unsigned char**)*imagecount);
+  pixelmaps=malloc(sizeof(Raster*)*imagecount);
+  count_map=malloc(sizeof(unsigned int)*imagecount);
+  putImage(images[0]);
+  
+  int i;
+  unsigned int countv;
+  Raster* pixeldata;
+  unsigned char** accarr;
+  for(i=1;i<imagecount;i++){
+    countv=calculateBsize(images[i]);
+    pixeldata=malloc(sizeof(Raster)*countv*3);
+    accarr=malloc(sizeof(unsigned char*)*countv);
+    populateBsize(images[i],accarr,pixeldata);
+
+    pixelmaps[i]=pixeldata;
+    count_map[i]=countv;
+    address_holder[i]=accarr;
+    optimizationscore=optimizationscore+countv;
+//    if(countvc>8294400)
+ //    printf(" - %d\n",countvc);
+  }
+  countv=calculateBsize(images[0]);
+  pixeldata=malloc(sizeof(Raster)*countv*3);
+  accarr=malloc(sizeof(unsigned char*)*countv);
+  populateBsize(images[0],accarr,pixeldata);
+  address_holder[0]=accarr;
+  pixelmaps[0]=pixeldata;
+  count_map[0]=countv;
+
+}
+void depclean(){
+  int i;
+  for(i=0;i<imagecount;i++){
+    free(images[i]);
+  }
+  free(images);
+}
+void free_op_mem(){
+   int i;
+  for(i=0;i<imagecount;i++){
+
+    free(address_holder[i]);
+    free(pixelmaps[i]);
+  }
+  free(address_holder);
+  free(pixelmaps);
+  free(count_map);
+
+}
 
 void sort_images(int* order,unsigned int start){
 
@@ -35,8 +95,8 @@ void sort_images(int* order,unsigned int start){
 
 	}
 
-	XImage* mini = images[m_index];
-	XImage* candidate = images[start];
+	Raster* mini = images[m_index];
+	Raster* candidate = images[start];
 
 	int can_i = order[start];
 	order[start]=order[m_index];
@@ -67,8 +127,8 @@ int dirimages(char* path){
 	}
 	closedir(rdim);
 
-	images = malloc(sizeof(XImage*)*files);
-	data= malloc(sizeof(Raster*)*files);
+	images = malloc(sizeof(Raster*)*files);
+	//data= malloc(sizeof(Raster*)*files);
 	
 	int names[files];
 	imagecount=files;
@@ -93,11 +153,11 @@ int dirimages(char* path){
 			
 			char pathr[strlen(path) + 1 + strlen(namae) + 1];
 			sprintf(pathr,"%s/%s",path,namae);
-			Raster* canvas = malloc(sizeof(Raster)*(maxwidth*maxheight*4));
-			images[fc] = createXImage(&canvas);
-			data[fc]=canvas;
+			Raster* canvas = malloc(sizeof(Raster)*(maxwidth*maxheight*3));
+			images[fc]=canvas;
 			//canvas[0]=0;
 			if(rescaled_read(pathr,canvas,maxwidth,maxheight)==-1){
+                          free(canvas);
                           return -1;
 			}
 			fc++;
@@ -109,7 +169,7 @@ int dirimages(char* path){
 
 	
 	sort_images(names,0);
-	printf("\n%d frames loaded succesfully\n---\n",imagecount);
+	printf("\n%d frames loaded succesfully\n---\noptimizing\n",imagecount);
 	return 1;
 }
 
@@ -118,17 +178,14 @@ int main(int argn, char* argv[]){
 
 	if(argn<4){
 		printf("a program to animate desktops on tiling window managers like dwm\n");
-		printf("%s <display id (:0)> <path to directory with image files> <fps rate> [frame skipping] [bidirectional]\n",argv[0]);
+		printf("%s <display id (:0)> <path to directory with image files> <fps rate> [frame skipping]\n",argv[0]);
 		return 0;
 	}
-  int bidirectional=0;
+
 	if(argn >4){
 		skipping = atoi(argv[4]);
 		printf("skipping every %d frames\n",skipping);
-    if(argn>5){
-      bidirectional=1;
-    }
-	}
+   	}
 
 	initX11(argv[1]);//init x11
 	//fingerprint display
@@ -148,38 +205,34 @@ int main(int argn, char* argv[]){
 		return 0;
 	}
 	//some kill condition
-  int incrmentation =1;
-	unsigned int cycle_index = 0;
+  setup_optimizations();
+  double optimization_p=optimizationscore/(maxwidth*maxheight*imagecount*1.0);
+  printf("optimization: %g out of 100 \n",100-optimization_p*100);
+	putImage(images[0]);
+  XputImage();
+  depclean();
+
+
+	unsigned int cycle_index = 1;
 	while(1){
 
+    //printf("%d\n",cycle_index);
 		
-		setImaged(images[cycle_index]);
-		cycle_index = cycle_index+incrmentation;
-    if(bidirectional==1 && cycle_index <= 0){
-
-      incrmentation=1;
-    }
-    
-		if(cycle_index >= imagecount){
-      if(bidirectional==1){
-        incrmentation=-1;
-        cycle_index=cycle_index-2;
-      }else
-			  cycle_index = 0;
+		//putImage(images[cycle_index]);
+   putCorrection(pixelmaps[cycle_index],address_holder[cycle_index],count_map[cycle_index]);
+    XputImage();
+    flushX();
+		cycle_index = cycle_index+1;
+    if(cycle_index >= imagecount){
+    			cycle_index = 0;
 		}
 		//printf("setting %d %d\n",cycle_index);
     usleep(sleeptime);
 	}
 
-        closeX11();
+    free_op_mem();
+    closeX11();
 	
-	unsigned int i;
-	for(i=0; i<imagecount;i++){
-		free(images[i]);
-		free(data[i]);
-	}
-	free(images);
-	free(data);
 	
         return 0;
 }
