@@ -57,8 +57,8 @@ void putImage(unsigned char* image){
 }
 
 void putCorrection(unsigned char* pixels,unsigned char** pixel_loc, unsigned int count){
-  unsigned int track;
-  for(track=0; track<count; track++){
+  unsigned char** pixel_loc_end=pixel_loc+count;
+  while(pixel_loc<pixel_loc_end){
     *((unsigned int*)(*pixel_loc))=(*((unsigned int*)pixels))|4278190080;
     pixels=pixels+3;
     pixel_loc++;
