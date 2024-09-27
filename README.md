@@ -15,7 +15,7 @@ pass the path to that directory as the second argument of livebg
 
 run livebg for options
 
-usage: on I7, both X11 and this program will consume 6% of one CPU core while running at 10fps, lower frame rates will result in less cpu usage
-5fps will result in 2% -4% cpu usage
+usage: on I7, both X11 and this program will consume 1.9-2.5% of one CPU core while running at 15fps, lower frame rates will result in less cpu usage
+
 
 note: gifs give sharper images rather than mp4s
