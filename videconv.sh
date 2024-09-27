@@ -14,5 +14,4 @@ cd "$1.output"
 
 #ffmpeg -i "$1" -vf scale=$DISPLAY_HEIGHT:$DISPLAY_WIDTH output.gif
 ffmpeg -i "$1" -pix_fmt rgba %04d.png
-rm output.gif
 rm "$1"
