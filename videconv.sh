@@ -12,7 +12,7 @@ mkdir "$1.output"
 cp "$1" "$1.output"
 cd "$1.output"
 
-ffmpeg -i "$1" -vf scale=$DISPLAY_HEIGHT:$DISPLAY_WIDTH output.gif
-rm "$1"
-ffmpeg -i output.gif -pix_fmt rgba %04d.png
+#ffmpeg -i "$1" -vf scale=$DISPLAY_HEIGHT:$DISPLAY_WIDTH output.gif
+ffmpeg -i "$1" -pix_fmt rgba %04d.png
 rm output.gif
+rm "$1"
