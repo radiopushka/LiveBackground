@@ -84,4 +84,4 @@ This project is licensed under the **Public Domain**.
 
 ---
 
-[link to here](https://github.com/radiopushka/LiveBackground)
+Readme formated by ChatGPT
