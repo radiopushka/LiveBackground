@@ -4,8 +4,8 @@
   typedef unsigned char Raster;
 //Evan Nikitin 2024 sep 28th
 //the larger these values the worse the image but the less the cpu usage
-#define MAXERR_R 1
-#define MAXERR_G 1
+#define MAXERR_R 6
+#define MAXERR_G 6
 #define MAXERR_B 1
 
   //our raster declares image type in B G R per each pixel
