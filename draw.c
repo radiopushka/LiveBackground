@@ -11,7 +11,7 @@ Raster** images;
 unsigned int image_count;
 
 unsigned int optimizationscore=0;
-
+//Evan Nikitin 2024 sep 28th
 
 //optimization structures
 unsigned char*** address_holder;
