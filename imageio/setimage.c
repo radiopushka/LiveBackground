@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "imageio.h"
-
+//Evan Nikitin 2024 sep 28th
 int Bw=1000; 
 int Bh=1000;
 
