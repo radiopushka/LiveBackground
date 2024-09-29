@@ -71,7 +71,7 @@ livebg :0 ./directory.output 20 0
 - `0` is the frame skip modulus.
 
 ### Performance:
-On an Intel i7 8th generation, both X11 and the program will consume approximately 1.9-2.5% of one CPU core at 15 FPS. For higher frame rates (e.g., 24 FPS on an i5), CPU usage drops to 1.3-2%, even with animation-heavy renders like "The Drive."
+On an Intel i7 8th generation, both X11 and the program will consume approximately 1.9-2.5% of one CPU core at 20 FPS. For higher frame rates (e.g., 24 FPS on an i5), CPU usage could increase to 4-5%, with animation-heavy renders like "The Drive."
 
 ### Note:
 The MP4 conversion via the shell script provides a sharp and clear background.
