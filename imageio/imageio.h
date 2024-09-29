@@ -2,7 +2,7 @@
   #define X11IMAGE
   #include <X11/Xlib.h>
   typedef unsigned char Raster;
-
+//Evan Nikitin 2024 sep 28th
 #define MAXERR_R 4
 #define MAXERR_G 3
 #define MAXERR_B 6
