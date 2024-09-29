@@ -3,9 +3,10 @@
   #include <X11/Xlib.h>
   typedef unsigned char Raster;
 //Evan Nikitin 2024 sep 28th
-#define MAXERR_R 4
-#define MAXERR_G 3
-#define MAXERR_B 3
+//the larger these values the worse the image but the less the cpu usage
+#define MAXERR_R 1
+#define MAXERR_G 1
+#define MAXERR_B 1
 
   //our raster declares image type in B G R per each pixel
   //one pixel has 3 chars B G and R
