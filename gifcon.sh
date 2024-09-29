@@ -1,4 +1,5 @@
 #!/bin/bash
+#Evan Nikitin 2024 sep 28th
 DISPLAY_WIDTH=1080
 DISPLAY_HEIGHT=1920
 
