@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "imageio.h"
+//Evan Nikitin 2024 August
 int rescaled_read(char* image,unsigned char* memory,int width,int height){
   FILE* im=fopen(image,"rb");
   if(!im)
