@@ -84,4 +84,4 @@ This project is licensed under the **Public Domain**.
 
 ---
 
-[GitHub Repository Link](https://github.com/radiopushka/LiveBackground)
+[link to here](https://github.com/radiopushka/LiveBackground)
