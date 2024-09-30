@@ -73,7 +73,8 @@ livebg :0 ./directory.output 20 0
 ## Tips
  - you can run the videoconv.sh script with `o` following the filename like for example `videoconv.sh sample.mp4 o`
  - this will optimize the output for better CPU performorance while still keeping the image relatively sharp.
- - It will reduce render CPU usage by half but it will make the image ever so slightly grainy.
+ - It will reduce render CPU usage by half but it will make the image ever so slightly grainy. This could be worth it to get better FPS.
+ - you can also edit the imagio/imagio.h header file and change the color rendering threshold, this can make things wack so do this at your own risk.
 
 ### Performance:
 On an Intel i7 8th generation, both X11 and the program will consume approximately 1.9-2.5% of one CPU core at 20 FPS. For higher frame rates (e.g., 24 FPS on an i5), CPU usage could increase to 4-5%, with animation-heavy renders like "The Drive."
